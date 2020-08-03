@@ -9,13 +9,14 @@
         <li class="breadcrumb-item"><a href="{{ route('plans.show', $plan->url) }}">{{ $plan->name }}</a></li>
         <li class="breadcrumb-item"><a href="{{ route('details.plan.index', $plan->url) }}">Detalhes</a></li>
     </ol>
-    <h1>Detalhes do Plano <a href="{{ route('plans.create') }}" class="btn btn-default">ADD</a></h1>
+    <h1>Detalhes do Plano <a href="{{ route('details.plan.create',$plan->url) }}" class="btn btn-default">ADD</a></h1>
 @stop
 
 @section('content')
     <div class="card">
 
         <div class="card-body">
+            @include('admin.includes.alerts')
             <table class="table table-condensed">
                 <thead>
                     <tr>
@@ -28,8 +29,8 @@
                         <tr>
                         <td>{{ $detail->name }}</td>
                         <td>
-                            <a href="{{ route('plans.edit',$plan->url) }}" class="btn btn-info">Edit</a>
-                            <a href="{{ route('plans.show',$plan->url) }}" class="btn btn-warning">VER</a>
+                            <a href="{{ route('details.plan.edit',[$plan->url,$detail->id]) }}" class="btn btn-info">Edit</a>
+                            <a href="{{ route('details.plan.show',[$plan->url,$detail->id]) }}" class="btn btn-warning">VER</a>
                         </td>
                         </tr>
                     @endforeach
