@@ -25,18 +25,21 @@ class PermissionProfileController extends Controller
 
         $permissions = $profile->permissions()->paginate();
 
-        return view('admin.pages.profiles.permissions.permissions',['permissions'=>$permissions,'profile'=>$profile]);
+        return view('admin.pages.profiles.permissions.permissions', ['permissions' => $permissions, 'profile' => $profile]);
     }
 
-    public function permissionsAvailable($idProfile)
+    public function permissionsAvailable(Request $request, $idProfile)
     {
         $profile = $this->profile->find($idProfile);
         if (!$profile)
             return redirect()->back();
 
-        $permissions = $profile->permissionsAvailable();
+        $filters = $request->except('_token');
 
-        return view('admin.pages.profiles.permissions.available', ['profile'=>$profile,'permissions'=>$permissions]);
+        $permissions = $profile->permissionsAvailable($request->filter);
+
+        return view('admin.pages.profiles.permissions.available',
+         ['profile' => $profile, 'permissions' => $permissions,'filters'=>$filters]);
     }
 
     public function attachPermissionsProfile($idProfile, Request $request)
@@ -45,12 +48,11 @@ class PermissionProfileController extends Controller
         if (!$profile)
             return redirect()->back();
 
-        if(!$request->permissions || count($request->permissions) <= 0)
-            return redirect()->back()->with('info','Marque pelo menos uma permissão');
+        if (!$request->permissions || count($request->permissions) <= 0)
+            return redirect()->back()->with('info', 'Marque pelo menos uma permissão');
 
         $profile->permissions()->attach($request->permissions);
 
-        return redirect()->route('profiles.permissions',$profile->id);
+        return redirect()->route('profiles.permissions', $profile->id);
     }
 }
-
