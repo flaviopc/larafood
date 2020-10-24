@@ -51,12 +51,12 @@ Route::prefix('admin')
          * Routes Details Plans
          */
         Route::delete('plans/{url}/details/{idPlan}', 'DetailPlanController@destroy')->name('details.plan.destroy');
+        Route::get('plans/{url}/details/create', 'DetailPlanController@create')->name('details.plan.create');
         Route::get('plans/{url}/details/{idPlan}', 'DetailPlanController@show')->name('details.plan.show');
         Route::put('plans/{url}/details/{idPlan}', 'DetailPlanController@update')->name('details.plan.update');
         Route::get('plans/{url}/details/{idPlan}/edit', 'DetailPlanController@edit')->name('details.plan.edit');
         Route::post('plans/{url}/details', 'DetailPlanController@store')->name('details.plan.store');
         Route::get('plans/{url}/details', 'DetailPlanController@index')->name('details.plan.index');
-        Route::get('plans/{url}/details/create', 'DetailPlanController@create')->name('details.plan.create');
 
 
         /**
