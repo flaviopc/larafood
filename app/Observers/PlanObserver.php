@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Plan;
+use Illuminate\Support\Str;
 
 class PlanObserver
 {
@@ -14,7 +15,7 @@ class PlanObserver
      */
     public function creating (Plan $plan)
     {
-        $plan->url = \Str::kebab($plan->name);
+        $plan->url = Str::slug($plan->name);
     }
 
     /**
@@ -25,7 +26,7 @@ class PlanObserver
      */
     public function updating (Plan $plan)
     {
-        $plan->url = \Str::kebab($plan->name);
+        $plan->url = Str::slug($plan->name);
     }
 
 

@@ -16,13 +16,19 @@ Route::prefix('admin')
     ->middleware('auth')
     ->group(function () {
 
-         /**
+        /**
+         * Routes Categories
+         */
+        Route::any('categories/search', 'CategoryController@search')->name('categories.search');
+        Route::resource('categories', 'CategoryController');
+
+        /**
          * Routes Users
          */
         Route::any('users/search', 'UserController@search')->name('users.search');
         Route::resource('users', 'UserController');
 
-         /**
+        /**
          *  Plan Profile
          */
         Route::get('plans/{id}/profile/{idProfile}/detach', 'ACL\PlanProfileController@detachProfilesPlan')->name('plans.profile.detach');

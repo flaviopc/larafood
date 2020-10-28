@@ -247,6 +247,11 @@ return [
             'icon' => 'fas fa-lock'
         ],
         [
+            'text' => 'Categorias',
+            'url'  => 'admin/categories',
+            'icon' => 'fas fa-layer-group'
+        ],
+        [
             'text' => 'Usuários',
             'url'  => 'admin/users',
             'icon' => 'fas fa-users'
