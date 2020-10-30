@@ -38,6 +38,9 @@
                             <td>R$ {{ $product->price }}</td>
                             <td>{{ $product->description }}</td>
                             <td>
+                                <a href="{{ route('products.categories',$product->id) }}" class="btn btn-info" title="Categorias">
+                                    <i class="fas fa-layer-group"></i>
+                                </a>
                                 <a href="{{ route('products.edit',$product->id) }}" class="btn btn-info">Edit</a>
                                 <a href="{{ route('products.show',$product->id) }}" class="btn btn-warning">VER</a>
                             </td>
