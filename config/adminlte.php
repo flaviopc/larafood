@@ -257,6 +257,11 @@ return [
             'icon' => 'fas fa-layer-group'
         ],
         [
+            'text' => 'Mesas',
+            'url'  => 'admin/tables',
+            'icon' => 'fas fa-tablet'
+        ],
+        [
             'text' => 'Usuários',
             'url'  => 'admin/users',
             'icon' => 'fas fa-users'

@@ -15,6 +15,12 @@ Route::prefix('admin')
     ->namespace('Admin')
     ->middleware('auth')
     ->group(function () {
+         /**
+         * Routes Mesas
+         */
+        Route::any('tables/search', 'TableController@search')->name('tables.search');
+        Route::resource('tables', 'TableController');
+
         /**
          *  Category Product
          */
