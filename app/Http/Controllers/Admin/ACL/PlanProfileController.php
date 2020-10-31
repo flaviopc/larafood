@@ -13,6 +13,7 @@ class PlanProfileController extends Controller
 
     public function __construct(Plan $plan, Profile $profile)
     {
+        $this->middleware(['can:plans']);
         $this->plan = $plan;
         $this->profile = $profile;
     }

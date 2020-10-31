@@ -14,6 +14,7 @@ class DetailPlanController extends Controller
 
     public function __construct(DetailPlan $detailPlan, Plan $plan)
     {
+        $this->middleware(['can:plans']);
         $this->repository = $detailPlan;
         $this->plan = $plan;
     }

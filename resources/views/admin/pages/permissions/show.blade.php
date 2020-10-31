@@ -19,7 +19,7 @@
                     <strong>Descrição: </strong>{{ $permission->description }}
                 </li>
             </ul>
-        <form action="{{ route('permission.destroy',$permission->id) }}" method="POST">
+        <form action="{{ route('permissions.destroy',$permission->id) }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger">DELETAR</button>
