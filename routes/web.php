@@ -16,6 +16,12 @@ Route::prefix('admin')
     ->middleware('auth')
     ->group(function () {
          /**
+         * Routes Produtos
+         */
+        Route::any('tenants/search', 'TenantController@search')->name('tenants.search');
+        Route::resource('tenants', 'TenantController');
+
+         /**
          * Routes Mesas
          */
         Route::any('tables/search', 'TableController@search')->name('tables.search');
