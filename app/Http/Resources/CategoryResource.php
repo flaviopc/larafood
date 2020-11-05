@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TenantResource extends JsonResource
+class CategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,8 @@ class TenantResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'image' => url($this->logo),
-            'uuid' => $this->uuid,
-            'flag' => $this->url,
+            'url' => $this->url,
+            'description' => $this->description,
         ];
     }
 }
