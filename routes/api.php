@@ -15,4 +15,10 @@ Route::group([
 
     Route::get('/products/{flag}', 'ProductApiController@show');
     Route::get('/products', 'ProductApiController@productsByTenant');
+
+    Route::post('/client', 'Auth\RegisterController@store');
+
+    Route::post('/sanctum/token', 'Auth\AuthClientController@auth');
+    Route::get('/me','Auth\AuthClientController@me')->middleware('auth:sanctum');
+    Route::post('/logout','Auth\AuthClientController@logout')->middleware('auth:sanctum');
 });
