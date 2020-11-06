@@ -7,5 +7,6 @@ return [
     'admins' => [
         'raulv@yahoo.com.br',
         'flavio_pc@outlook.com',
+        'silvio-sbt@gmail.com'
     ],
 ];
