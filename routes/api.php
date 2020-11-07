@@ -21,4 +21,7 @@ Route::group([
     Route::post('/sanctum/token', 'Auth\AuthClientController@auth');
     Route::get('/me','Auth\AuthClientController@me')->middleware('auth:sanctum');
     Route::post('/logout','Auth\AuthClientController@logout')->middleware('auth:sanctum');
+
+    Route::post('/orders','OrderApiController@store');
+    Route::get('/orders/{identify}','OrderApiController@show');
 });
