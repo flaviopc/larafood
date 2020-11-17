@@ -26,7 +26,10 @@ class StoreOrder extends FormRequest
         return [
             'token_company' => ['required', 'exists:tenants,uuid'],
             'table' => ['nullable', 'exists:tables,uuid'],
-            'comment' => ['nullable','max:500']
+            'comment' => ['nullable','max:500'],
+            'products' => ['required'],
+            'products.*.identify' => ['required','exists:products,uuid'],
+            'products.*.qtd' => ['required','integer'],
         ];
     }
 }

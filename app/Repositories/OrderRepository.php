@@ -40,8 +40,30 @@ class OrderRepository implements OrderRepositoryInterface
         return $order;
     }
 
+    public function getOrdersByClientId(int $idClient)
+    {
+        $orders = $this->entity->where('client_id',$idClient)->paginate();
+        return $orders;
+    }
+
     public function getOrderByIdentify(string $identify)
     {
         return $this->entity->where('identify', $identify)->first();
+    }
+
+    public function registerProductOrder(int $orderId, array $products)
+    {
+
+        $order = $this->entity->find($orderId);
+
+        $orderProducts = [];
+
+        foreach ($products as $product) {
+            $orderProducts[$product['id']] = [
+                'qtd' => $product['qtd'],
+                'price' => $product['price']
+            ];
+        }
+        $order->products()->attach($orderProducts);
     }
 }

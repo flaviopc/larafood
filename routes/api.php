@@ -1,5 +1,18 @@
 <?php
 
+Route::post('/sanctum/token', 'Api\Auth\AuthClientController@auth');
+
+Route::group([
+    'middleware' => ['auth:sanctum']
+],function () {
+
+    Route::post('/auth/v1/orders/{identify}/evaluations','Api\EvaluationApiController@store');
+
+    Route::get('/auth/v1/my-orders','Api\Auth\AuthClientController@myOrders');
+    Route::get('/auth/me','Api\Auth\AuthClientController@me');
+    Route::post('/auth/logout','Api\Auth\AuthClientController@logout');
+    Route::post('/auth/v1/orders','Api\OrderApiController@store');
+});
 Route::group([
     'prefix' => 'v1',
     'namespace' => 'Api'
@@ -17,10 +30,6 @@ Route::group([
     Route::get('/products', 'ProductApiController@productsByTenant');
 
     Route::post('/client', 'Auth\RegisterController@store');
-
-    Route::post('/sanctum/token', 'Auth\AuthClientController@auth');
-    Route::get('/me','Auth\AuthClientController@me')->middleware('auth:sanctum');
-    Route::post('/logout','Auth\AuthClientController@logout')->middleware('auth:sanctum');
 
     Route::post('/orders','OrderApiController@store');
     Route::get('/orders/{identify}','OrderApiController@show');
