@@ -16,11 +16,11 @@ class ProductResource extends JsonResource
     {
         return [
             'identify' => $this->uuid,
-            'flag' => $this->uuid,
-            'title' => $this->flag,
+            'flag' => $this->flag,
+            'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
-            'image' => $this->image,
+            'image' => \url("storage/{$this->image}"),
         ];
     }
 }
