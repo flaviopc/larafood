@@ -10,11 +10,32 @@ use Illuminate\Http\Request;
 class TableController extends Controller
 {
     private $repository;
+
     public function __construct(Table $table)
     {
         $this->middleware(['can:tables']);
         $this->repository = $table;
     }
+
+    /**
+     * Generate QrCode Table
+     *
+     * @param string $identify
+     * @return \Illuminate\Http\Response
+     */
+    public function qrcode($identify)
+    {
+        $table = $this->repository->where('identify', $identify)->first();
+
+        if (!$table)
+            return redirect()->back();
+
+        $tenant = \auth()->user()->tenant;
+        $uri = \env('URI_CLIENT') . "/{$tenant->uuid}/{$table->uuid}";
+
+        return view('admin.pages.tables.qrcode', ['table' => $table,'uri'=>$uri]);
+    }
+
     /**
      * Display a listing of the resource.
      *
