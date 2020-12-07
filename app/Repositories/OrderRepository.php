@@ -33,7 +33,7 @@ class OrderRepository implements OrderRepositoryInterface
         ];
 
         if ($clientId) $data['client_id'] = $clientId;
-        if ($tableId) $data['table_id'] = $$tableId;
+        if ($tableId) $data['table_id'] = $tableId;
 
         $order = $this->entity->create($data);
 

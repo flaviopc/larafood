@@ -32,7 +32,8 @@ class OrderService
 
     public function getOrderByIdentify(string $identify)
     {
-        return $this->getOrderByIdentify($identify);
+
+        return $this->orderRepository->getOrderByIdentify($identify);
     }
 
     public function createNewOrder(array $order)
@@ -44,7 +45,7 @@ class OrderService
         $tenantId = $this->getTenantIdByOrder($order['token_company']);
         $clientId = $this->getClientIdByOrder();
         $tableId = $this->getTableIdByOrder($order['table'] ?? '');
-        $comment = $order['comment'] ?? '';
+        $comment = isset($order['comment']) ?$order['comment'] : '';
 
         $order = $this->orderRepository->createNewOrder(
             $identify,

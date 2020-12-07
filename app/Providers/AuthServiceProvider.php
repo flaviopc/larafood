@@ -27,16 +27,21 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        //se estiver em modo console ele não precisa consultar a tabela de permissions
+        //o que geraria um erro
+        if ($this->app->runningInConsole())
+            return;
+
         $permissions = Permission::all();
 
         foreach ($permissions as $permission) {
-            Gate::define($permission->name, function(User $user) use ($permission){
+            Gate::define($permission->name, function (User $user) use ($permission) {
                 return $user->hasPermission($permission->name);
             });
         }
 
-        Gate::before(function(User $user){
-            if($user->isAdmin())
+        Gate::before(function (User $user) {
+            if ($user->isAdmin())
                 return true;
         });
     }
