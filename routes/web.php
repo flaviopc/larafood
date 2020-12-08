@@ -135,7 +135,7 @@ Route::prefix('admin')
         Route::post('plans', 'PlanController@store')->name('plans.store');
         Route::get('plans', 'PlanController@index')->name('plans.index');
 
-        Route::get('/', 'PlanController@index')->name('admin.index');
+        Route::get('/', 'DashboardController@home')->name('admin.index');
     });
 
 /**
