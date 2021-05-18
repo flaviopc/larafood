@@ -32,7 +32,7 @@ class UniqueTenant implements Rule
     {
         $tenantId = \app(ManagerTenant::class)->getTenantIdentify();
 
-        $register = DB::table($this->table)
+        $register = \DB::table($this->table)
             ->where($attribute, $value)
             ->where('tenant_id', $tenantId)
             ->first();
