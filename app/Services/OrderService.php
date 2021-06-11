@@ -92,7 +92,7 @@ class OrderService
 
             array_push($products, [
                 'id' => $product->id,
-                'qty' => $productOrder['qty'],
+                'qtd' => $productOrder['qtd'],
                 'price' => $product->price,
             ]);
         }
@@ -105,7 +105,7 @@ class OrderService
         $total = 0;
 
         foreach ($products as $product) {
-            $total += ($product['price'] * $product['qty']);
+            $total += ($product['price'] * $product['qtd']);
         }
 
         return (float) $total;

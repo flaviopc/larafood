@@ -56,7 +56,7 @@ class OrderRepository implements OrderRepositoryInterface
 
         foreach ($products as $product) {
             $orderProducts[$product['id']] = [
-                'qty' => $product['qty'],
+                'qtd' => $product['qtd'],
                 'price' => $product['price'],
             ];
         }
