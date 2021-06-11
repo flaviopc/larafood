@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\OrderCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreOrder;
-use App\Http\Requests\Api\TenantformRequest;
+use App\Http\Requests\Api\TenantFormRequest;
 use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -18,20 +19,21 @@ class OrderApiController extends Controller
         $this->orderService = $orderService;
     }
 
+
     public function store(StoreOrder $request)
     {
         $order = $this->orderService->createNewOrder($request->all());
+
+        broadcast(new OrderCreated($order));
 
         return new OrderResource($order);
     }
 
     public function show($identify)
     {
-
-        $order = $this->orderService->getOrderByIdentify($identify);
-
-        if (!$order)
+        if (!$order = $this->orderService->getOrderByIdentify($identify)) {
             return response()->json(['message' => 'Not Found'], 404);
+        }
 
         return new OrderResource($order);
     }

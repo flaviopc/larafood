@@ -285,6 +285,11 @@ return [
             'can'  => 'tables'
         ],
         [
+            'text' => 'Pedidos',
+            'url'  => 'admin/orders',
+            'icon' => 'fas fa-utensils'
+        ],
+        [
             'text' => 'Usuários',
             'url'  => 'admin/users',
             'icon' => 'fas fa-users',

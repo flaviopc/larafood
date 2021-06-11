@@ -42,7 +42,7 @@
     {{-- Favicon --}}
 
         <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
-
+        @stack('scripts-header')
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>

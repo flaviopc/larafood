@@ -6,6 +6,7 @@ use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\TableRepositoryInterface;
 use App\Repositories\Contracts\TenantRepositoryInterface;
+use Illuminate\Http\Request;
 
 class OrderService
 {
@@ -32,20 +33,20 @@ class OrderService
 
     public function getOrderByIdentify(string $identify)
     {
-
         return $this->orderRepository->getOrderByIdentify($identify);
     }
 
     public function createNewOrder(array $order)
     {
-        $products = $this->getProductsByOrder($order['products'] ?? []);
+        $productsOrder = $this->getProductsByOrder($order['products'] ?? []);
+
         $identify = $this->getIdentifyOrder();
-        $total = $this->getTotalOrder($products);
+        $total = $this->getTotalOrder($productsOrder);
         $status = 'open';
         $tenantId = $this->getTenantIdByOrder($order['token_company']);
+        $comment = isset($order['comment']) ? $order['comment'] : '';
         $clientId = $this->getClientIdByOrder();
         $tableId = $this->getTableIdByOrder($order['table'] ?? '');
-        $comment = isset($order['comment']) ?$order['comment'] : '';
 
         $order = $this->orderRepository->createNewOrder(
             $identify,
@@ -57,25 +58,28 @@ class OrderService
             $tableId
         );
 
-        $this->orderRepository->registerProductOrder($order->id, $products);
+        $this->orderRepository->registerProductsOrder($order->id, $productsOrder);
 
         return $order;
     }
 
-    private function getIdentifyOrder(int $qtdCharacters = 6)
+    private function getIdentifyOrder(int $qtyCaraceters = 8)
     {
         $smallLetters = str_shuffle('abcdefghijklmnopqrstuvwxyz');
 
         $numbers = (((date('Ymd') / 12) * 24) + mt_rand(800, 9999));
         $numbers .= 1234567890;
 
-        $characters = $smallLetters . $numbers;
-        $identify = substr(str_shuffle($characters), 0, $qtdCharacters);
+        // $specialCharacters = str_shuffle('!@#$%*-');
 
-        //verifica se há identificador igual
-        $identifyNew = $this->orderRepository->getOrderByIdentify($identify);
-        if ($identifyNew)
-            $this->getIdentifyOrder($qtdCharacters + 1);
+        // $characters = $smallLetters.$numbers.$specialCharacters;
+        $characters = $smallLetters.$numbers;
+
+        $identify = substr(str_shuffle($characters), 0, $qtyCaraceters);
+
+        if ($this->orderRepository->getOrderByIdentify($identify)) {
+            $this->getIdentifyOrder($qtyCaraceters + 1);
+        }
 
         return $identify;
     }
@@ -85,10 +89,11 @@ class OrderService
         $products = [];
         foreach ($productsOrder as $productOrder) {
             $product = $this->productRepository->getProductByUuid($productOrder['identify']);
+
             array_push($products, [
                 'id' => $product->id,
-                'qtd' => $productOrder['qtd'],
-                'price' => $product->price
+                'qty' => $productOrder['qty'],
+                'price' => $product->price,
             ]);
         }
 
@@ -98,8 +103,10 @@ class OrderService
     private function getTotalOrder(array $products): float
     {
         $total = 0;
-        foreach ($products as $product)
-            $total += $product['price'] * $product['qtd'];
+
+        foreach ($products as $product) {
+            $total += ($product['price'] * $product['qty']);
+        }
 
         return (float) $total;
     }
@@ -107,6 +114,7 @@ class OrderService
     private function getTenantIdByOrder(string $uuid)
     {
         $tenant = $this->tenantRepository->getTenantByUuid($uuid);
+
         return $tenant->id;
     }
 
@@ -114,13 +122,26 @@ class OrderService
     {
         if ($uuid) {
             $table = $this->tableRepository->getTableByUuid($uuid);
+
             return $table->id;
         }
-        return $uuid;
+
+        return '';
     }
 
     private function getClientIdByOrder()
     {
         return auth()->check() ? auth()->user()->id : '';
     }
+
+    public function getOrdersByTenantId(int $idTenant, string $status, string $date)
+    {
+        return $this->orderRepository->getOrdersByTenantId($idTenant, $status, $date);
+    }
+
+    public function updateStatusOrder(string $identify, string $status)
+    {
+        return $this->orderRepository->updateStatusOrder($identify, $status);
+    }
+
 }

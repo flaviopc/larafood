@@ -9,7 +9,19 @@ class Order extends Model
 {
     use TenantTrait;
 
-    protected $fillable = ['tenant_id','identify','client_id','table_id','total','status','comment'];
+    protected $fillable = ['tenant_id', 'identify', 'client_id', 'table_id', 'total', 'status', 'comment'];
+
+    /**
+     * Options status
+     */
+    public $statusOptions = [
+        'open' => 'Aberto',
+        'done' => 'Completo',
+        'rejected' => 'Rejeitado',
+        'working' => 'Andamento',
+        'canceled' => 'Cancelado',
+        'delivering' => 'Em transito',
+    ];
 
     public function tenant()
     {

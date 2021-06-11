@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
         return [
             'identify' => $this->identify,
             'status' =>$this->status,
+            'status_label' => $this->statusOptions[$this->status],
             'total' => $this->total,
             'date' => Carbon::make($this->created_at)->format('Y-m-d'),
             'company' => new TenantResource($this->tenant),
